@@ -36,7 +36,7 @@ Fork with updated vendor libraries and extended features.
   
 ### Control configuration and inputs
 Driver can emulate HTC Vive controllers and Valve Index controllers with skeletal animation and work in desktop and HMD orientations. It's adjusted by editing settings.xml in 'resources' folder.  
-There are more configurable restrictions, such as global input, trackpad, trigger, grip and etc.  
+There are more configurable restrictions, such as global input, trackpad, trigger, grip and etc. Check [wiki page](../../wiki/Offset-settings) for few offset settings reported from users.  
 Controls are changed by game profiles that are enabled automatically when game is started from Steam.  
 Available hotkeys in NumLock active state:
 * **Ctrl-P:** Enable/disable right hand controller.
