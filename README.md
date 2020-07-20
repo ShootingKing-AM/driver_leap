@@ -23,7 +23,7 @@ Fork with updated vendor libraries and extended features.
   * `driver_leap.dll`
   * `gesture_checker.exe`
   * `leap_monitor.exe`  
-**Note:** There are post-build events for projects to copy build files directly to SteamVR driver folder that can be enabled manually.
+  **Note:** There are post-build events for projects to copy build files directly to SteamVR driver folder that can be enabled manually.
 * Copy additional shared libraries to `<SteamVR_folder>/drivers/leap/bin/<your_platform>`:
   * `vendor/LeapSDK/bin/<your_platform>/LeapC.dll`
   * `vendor/openvr/bin/<your_platform>/openvr_api.dll`
