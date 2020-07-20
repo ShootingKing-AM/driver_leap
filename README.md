@@ -17,16 +17,17 @@ A Fork with updated vendor libraries and extended features.
 ## Installation 
 *for users*
 
-* Install [latest Leap Motion Orion Beta](https://developer.leapmotion.com/get-started)
-* **Method #1:** *recommended*
+```
+Default "SteamVR_folder" Location: C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Default "Steam_folder" Location: C:\Program Files (x86)\Steam
+```
+
+  * Install [latest Leap Motion Orion Beta](https://developer.leapmotion.com/get-started)
   * You should already have Steam and SteamVR installed.
-  * Create 'leap' folder in '<SteamVR_folder>/drivers' 
-    `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers)`
+  * Create `leap` folder in <code>*<SteamVR_folder>*/drivers</code>
   * Grab [latest release archive](../../releases/latest) (.zip) for your platform
-  * Extract archive to '<SteamVR_folder>/drivers/leap' 
-    `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap)`
-  * Edit steamvr configuration in '<Steam_folder>/config/steamvr.vrsettings' file 
-    `(Default: C:\Program Files (x86)\Steam\config)`
+  * Extract archive to <code>*<SteamVR_folder>*/drivers/leap</code>
+  * Edit steamvr configuration in <code>*<Steam_folder>*/config/steamvr.vrsettings</code> file 
     * If you are **using a HMD** already,
       * Add below line in section 'steamvr'
       ```JSON
@@ -54,15 +55,10 @@ A Fork with updated vendor libraries and extended features.
         "windowX" : 0,
         "windowY" : 0
       }
-      ```    
-* **Method #2:**
-  * Install [base project driver](https://github.com/cbuchner1/driver_leap/releases/tag/alpha8)
-  * Grab [latest release archive](../../releases/latest) for your platform
-  * Extract archive to '<base_project_installation_folder>/leap'
-
+      ``` 
+      
 ## Driver Control configuration and Inputs
-Driver can emulate HTC Vive controllers and Valve Index controllers with skeletal animation. Works in both desktop and HMD orientations of leap controller. Which controller to emulate and in what orientation leap controller is being used in, can be adjusted by editing `settings.xml` in 'resources' folder. 
-`(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap\resources)`
+Driver can emulate HTC Vive controllers and Valve Index controllers with skeletal animation. Works in both desktop and HMD orientations of leap controller. Which controller to emulate and in what orientation leap controller is being used in, can be adjusted by editing `settings.xml` in <code>*<SteamVR_folder>*/drivers/leap/resources</code> folder. 
 
 There are more configurable restrictions, such as global input, trackpad, trigger, grip and etc. in `settings.xml`. Check [wiki page](../../wiki/Offset-settings) for few offset settings contributed by users.
 Controls are changed by "Game Profiles" that are enabled automatically when respective game is started from Steam.
@@ -70,7 +66,7 @@ Controls are changed by "Game Profiles" that are enabled automatically when resp
 Available Hotkeys in NumLock active state:
 * **Ctrl-P:** Enable/disable right hand controller.
 * **Ctrl-O:** Enable/disable left hand controller.
-* **Ctrl-§/Ctrl-|*\\*\:** Reload configuration.
+* **Ctrl-|/Ctrl-*\\*\:** Reload configuration.
 
 ## Controller Emulation
 Real VR controllers give button touches, button presses, hand orientation feedbacks to SteamVR, which are then relayed to Game applications for different actions in-game. This driver emulates such feedback via gesture recognition by Leap motion controller and provides it to SteamVR. Preconfigured gestures are specified below for respective controller types and game profiles.
@@ -124,8 +120,7 @@ Game profiles:
 
 ## Troubleshooting
 Sometimes installation of [base project driver](https://github.com/cbuchner1/driver_leap) doesn't register driver folder for SteamVR. To manually add it:
-  * Open console as administrator in '<SteamVR_folder>/bin/[win32 or win64]' 
-    `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\[win32 or win64])` 
+  * Open console as administrator in <code>*<SteamVR_folder>*/bin/[win32 or win64]</code>
     and execute command:
     ```
     vrpathreg adddriver "path_to_leap_folder"
@@ -135,30 +130,26 @@ Sometimes installation of [base project driver](https://github.com/cbuchner1/dri
     vrpathreg adddriver "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap"
     ```
   * Check if driver folder is added by calling `vrpathreg` without any arguments.
-  * Open '<Steam_folder>/config/steamvr.vrsettings' file and add line in 'steamvr' section:
+  * Open <code>*<Steam_folder>*/config/steamvr.vrsettings</code> file and add line in `steamvr` section:
     ```JSON
     "activateMultipleDrivers": true,
     ```
-  * You can also check if the driver emulated controllers are registered with SteamVR by using the command `vrcmd` in the same 'bin' folder as above.
+  * You can also check if the driver emulated controllers are registered with SteamVR by using the command `vrcmd` in the same `bin` folder as above.
 
 ## Building 
 *for developers*
 
 * Open 'driver_leap.sln' solution in **Visual Studio 2013** (Other versions of Visual Studio have to build their own vendor libraries using CMake and retarget solution)
 * Build the solution as per your platform. Output files for:
-  * x64 - in 'bin/win64', in solution folder.
-  * x86 - in 'bin/win32', in solution folder.
-* Copy the following built files to 'leap/bin/<your_platform>': 
-  `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap\bin\[win64 or win32])`
-  * driver_leap.dll
-  * gesture_checker.exe
-  * leap_monitor.exe  
-**Note:** There are post-build events for projects to copy build files directly to SteamVR driver folder that can be enabled manually.
-* Copy additional shared vendor libraries from solution folder to 'leap/bin/<your_platform>': 
-  `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap\bin\[win64 or win32])`
+  * x64 - in `bin/win64`, in solution folder.
+  * x86 - in `bin/win32`, in solution folder.
+* Copy the following built files to <code>*<SteamVR_folder>*/drivers/leap/bin/<your_platform></code>:
+  * `driver_leap.dll`
+  * `gesture_checker.exe`
+  * `leap_monitor.exe`<br/>
+  **Note:** There are post-build events for projects to copy build files directly to SteamVR driver folder that can be enabled manually.
+* Copy additional shared vendor libraries from solution folder to <code>*<SteamVR_folder>*/drivers/leap/bin/<your_platform></code>: 
   * vendor/LeapSDK/bin/<your_platform>/LeapC.dll
   * vendor/openvr/bin/<your_platform>/openvr_api.dll
-* Copy 'resources' folder from solution root to driver's 'leap' folder. 
-  `(Default: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\leap\resources)`
+* Copy `resources` folder from solution root to driver's `leap` folder (<code>*<SteamVR_folder>*/drivers/leap</code>).
 * For runtime debugging and breakpointing attach MSVS debugger to `vrserver.exe` process.
-  
