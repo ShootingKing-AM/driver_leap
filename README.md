@@ -6,18 +6,13 @@ Fork with updated vendor libraries and extended features.
   
 ### Installation (for users)
 * Install [latest Orion Beta](https://developer.leapmotion.com/get-started)
-* **Method #1:**
-  * Create 'leap' folder in '<SteamVR_folder>/drivers'
-  * Grab [latest release archive](../../releases/latest) for your platform
-  * Extract archive to '<SteamVR_folder>/drivers/leap'
-  * Add line in section 'steamvr' of '<Steam_folder>/config/steamvr.vrsettings' file:
-  ```JSON
-  "activateMultipleDrivers": true,
-  ```
-* **Method #2:**
-  * Install [base project driver](https://github.com/cbuchner1/driver_leap/releases/tag/alpha8)
-  * Grab [latest release archive](../../releases/latest) for your platform
-  * Extract archive to '<base_project_installation_folder>/leap'
+* Create 'leap' folder in '<SteamVR_folder>/drivers'
+* Grab [latest release archive](../../releases/latest) for your platform
+* Extract archive to '<SteamVR_folder>/drivers/leap'
+* Add line in section 'steamvr' of '<Steam_folder>/config/steamvr.vrsettings' file:
+```JSON
+"activateMultipleDrivers": true,
+```
 
 ### Building (for developers)
 * Open 'driver_leap.sln' solution in Visual Studio 2013
@@ -41,7 +36,7 @@ Controls are changed by game profiles that are enabled automatically when game i
 Available hotkeys in NumLock active state:
 * **Ctrl-P:** Enable/disable right hand controller.
 * **Ctrl-O:** Enable/disable left hand controller.
-* **Ctrl-§:** Reload configuration.
+* **Ctrl-\ (or Ctrl-|):** Reload configuration.
 
 ### HTC Vive controllers emulation
 Game profiles:
@@ -83,14 +78,3 @@ Game profiles:
     * Button B - touching of thumb and pinky finger tips
     * System button - formed T-shape with two hands
 
-### Troubleshooting
-Sometimes installation of [base project driver](https://github.com/cbuchner1/driver_leap) doesn't register driver folder for SteamVR. To manually add it:
-* Open console as administrator in '<SteamVR_folder>/bin/win32' (or '<SteamVR_folder>/bin/win64') and execute command:
-```
-vrpathreg adddriver "path_to_leap_folder"
-```
-* Check if driver folder is added by calling 'vrpathreg' without any arguments
-* Open '<Steam_folder>/config/steamvr.vrsettings' file and add line in 'steamvr' section:
-```JSON
-"activateMultipleDrivers": true,
-```
