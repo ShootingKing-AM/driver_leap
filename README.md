@@ -70,7 +70,7 @@ Controls are changed by "Game Profiles" that are enabled automatically when resp
 Available Hotkeys in NumLock active state:
 * **Ctrl-P:** Enable/disable right hand controller.
 * **Ctrl-O:** Enable/disable left hand controller.
-* **Ctrl-/Ctrl-|:** Reload configuration.
+* **Ctrl-§/Ctrl-|*\\*\:** Reload configuration.
 
 ## Controller Emulation
 Real VR controllers give button touches, button presses, hand orientation feedbacks to SteamVR, which are then relayed to Game applications for different actions in-game. This driver emulates such feedback via gesture recognition by Leap motion controller and provides it to SteamVR. Preconfigured gestures are specified below for respective controller types and game profiles.
