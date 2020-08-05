@@ -48,7 +48,13 @@ public:
         TL_Full
     };
 
-    static void LoadConfig();
+	static void LoadConfig();
+	static void SaveOffsetsData();
+
+	static const void SetLeftHandOffsetEle(short i, const float& v);
+	static const void SetLeftHandOffsetRotationEle(short i, const float& v);
+	static const void SetRightHandOffsetEle(short i, const float& v);
+	static const void SetRightHandOffsetRotationEle(short i, const float& v);
 
     static inline unsigned char GetEmulatedController() { return ms_emulatedController; }
     static inline bool IsLeftHandEnabled() { return ms_leftHand; }
@@ -63,7 +69,7 @@ public:
     static inline const glm::vec3& GetRightHandOffset() { return ms_rightHandOffset; }
     static inline const glm::quat& GetRightHandOffsetRotation() { return ms_rightHandOffsetRotation; }
 
-    static inline bool IsInputEnabled() { return ms_input; }
+	static inline bool IsInputEnabled() { return ms_input; }
     static inline bool IsMenuEnabled() { return ms_menu; }
     static inline bool IsApplicationMenuEnabled() { return ms_applicationMenu; }
     static inline bool IsTriggerEnabled() { return ms_trigger; }

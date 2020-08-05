@@ -1,5 +1,14 @@
 #pragma once
 
+#define VK_UKEY	0x55
+#define VK_IKEY	0x49
+#define VK_OKEY	0x4F
+#define VK_PKEY	0x50
+#define VK_RKEY 0x52
+#define VK_GKEY 0x47
+
+#include "CDriverConfig.h"
+
 class CControllerButton;
 
 class CLeapController : public vr::ITrackedDeviceServerDriver
@@ -13,7 +22,8 @@ class CLeapController : public vr::ITrackedDeviceServerDriver
     CLeapController& operator=(const CLeapController &that) = delete;
 
     void ResetControls();
-    void UpdateInput();
+	void UpdateConfig();
+	void UpdateInput();
     void UpdateTransformation(const Leap::Frame &f_frame);
 
     // vr::ITrackedDeviceServerDriver
