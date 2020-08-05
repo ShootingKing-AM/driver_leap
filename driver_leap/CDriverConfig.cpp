@@ -137,8 +137,8 @@ void CDriverConfig::SaveOffsetsData()
 		r_handrotOffset << ms_rightHandOffsetRotation.x << " " << ms_rightHandOffsetRotation.y << " " << ms_rightHandOffsetRotation.z << " " << ms_rightHandOffsetRotation.w;
 
 		l_config->select_node("//setting[@name='leftHandOffset']").node().attribute("value").set_value(l_handOffset.str().c_str());
-		l_config->select_node("//setting[@name='leftHandOffsetRotation']").node().attribute("value").set_value(r_handOffset.str().c_str());
-		l_config->select_node("//setting[@name='rightHandOffset']").node().attribute("value").set_value(l_handrotOffset.str().c_str());
+		l_config->select_node("//setting[@name='leftHandOffsetRotation']").node().attribute("value").set_value(l_handrotOffset.str().c_str());
+		l_config->select_node("//setting[@name='rightHandOffset']").node().attribute("value").set_value(r_handOffset.str().c_str());
 		l_config->select_node("//setting[@name='rightHandOffsetRotation']").node().attribute("value").set_value(r_handrotOffset.str().c_str());
 
 		l_config->save_file(l_path.c_str());
