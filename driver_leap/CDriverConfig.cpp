@@ -78,6 +78,73 @@ const std::vector<std::string> g_trackingLevels
     "partial", "full"
 };
 
+const void CDriverConfig::SetLeftHandOffsetEle(short i, const float& v)
+{
+	switch (i)
+	{
+		case 0:	ms_leftHandOffset.x = v; break;
+		case 1:	ms_leftHandOffset.y = v; break;
+		case 2:	ms_leftHandOffset.z = v; break;
+	}
+}
+
+const void CDriverConfig::SetLeftHandOffsetRotationEle(short i, const float& v)
+{
+	switch (i)
+	{
+		case 0:	ms_leftHandOffsetRotation.x = v; break;
+		case 1:	ms_leftHandOffsetRotation.y = v; break;
+		case 2:	ms_leftHandOffsetRotation.z = v; break;
+		case 3:	ms_leftHandOffsetRotation.w = v; break;
+	}
+}
+
+const void CDriverConfig::SetRightHandOffsetEle(short i, const float& v)
+{
+	switch (i)
+	{
+		case 0:	ms_rightHandOffset.x = v; break;
+		case 1:	ms_rightHandOffset.y = v; break;
+		case 2:	ms_rightHandOffset.z = v; break;
+	}
+}
+
+const void CDriverConfig::SetRightHandOffsetRotationEle(short i, const float& v)
+{
+	switch (i)
+	{
+		case 0:	ms_rightHandOffsetRotation.x = v; break;
+		case 1:	ms_rightHandOffsetRotation.y = v; break;
+		case 2:	ms_rightHandOffsetRotation.z = v; break;
+		case 3:	ms_rightHandOffsetRotation.w = v; break;
+	}
+}
+
+void CDriverConfig::SaveOffsetsData()
+{
+	std::string l_path(g_modulePath);
+	l_path.erase(l_path.begin() + l_path.rfind('\\'), l_path.end());
+	l_path.append("\\..\\..\\resources\\settings.xml");
+
+	pugi::xml_document *l_config = new pugi::xml_document();
+
+	if (l_config->load_file(l_path.c_str()))
+	{
+		std::stringstream l_handOffset, l_handrotOffset, r_handOffset, r_handrotOffset;
+		l_handOffset << ms_leftHandOffset.x << " " << ms_leftHandOffset.y << " " << ms_leftHandOffset.z;
+		r_handOffset << ms_rightHandOffset.x << " " << ms_rightHandOffset.y << " " << ms_rightHandOffset.z;
+		l_handrotOffset << ms_leftHandOffsetRotation.x << " " << ms_leftHandOffsetRotation.y << " " << ms_leftHandOffsetRotation.z << " " << ms_leftHandOffsetRotation.w;
+		r_handrotOffset << ms_rightHandOffsetRotation.x << " " << ms_rightHandOffsetRotation.y << " " << ms_rightHandOffsetRotation.z << " " << ms_rightHandOffsetRotation.w;
+
+		l_config->select_node("//setting[@name='leftHandOffset']").node().attribute("value").set_value(l_handOffset.str().c_str());
+		l_config->select_node("//setting[@name='leftHandOffsetRotation']").node().attribute("value").set_value(l_handrotOffset.str().c_str());
+		l_config->select_node("//setting[@name='rightHandOffset']").node().attribute("value").set_value(r_handOffset.str().c_str());
+		l_config->select_node("//setting[@name='rightHandOffsetRotation']").node().attribute("value").set_value(r_handrotOffset.str().c_str());
+
+		l_config->save_file(l_path.c_str());
+	}
+}
+
 void CDriverConfig::LoadConfig()
 {
     std::string l_path(g_modulePath);

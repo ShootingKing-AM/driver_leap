@@ -128,11 +128,102 @@ void CLeapController::Update(const Leap::Frame &f_frame)
             UpdateTransformation(f_frame);
             ms_driverHost->TrackedDevicePoseUpdated(m_trackedDevice, m_pose, sizeof(vr::DriverPose_t));
 
+			UpdateConfig();
+
             UpdateGestures(f_frame);
             UpdateInput();
         }
         else ms_driverHost->TrackedDevicePoseUpdated(m_trackedDevice, m_pose, sizeof(vr::DriverPose_t));
     }
+}
+
+void CLeapController::UpdateConfig()
+{
+	/*
+		LeftHand Offset				x = SCL + U
+									y = SCL + I
+									z = SCL + O
+		LeftHand Offset Rot			x = SCL + NML + U
+									y = SCL + NML + I
+									z = SCL + NML + O
+									w = SCL + NML + P
+
+		RightHand(+Caps) Offset		x = SCL + Caps + U
+									y = SCL + Caps + I
+									z = SCL + Caps + O
+		RightHand(+Caps) Offset Rot	x = SCL + Caps + NML + U
+									y = SCL + Caps + NML + I
+									z = SCL + Caps + NML + O
+									w = SCL + Caps + NML + P
+		U - 0x55
+		I - 0x49
+		O - 0x4F
+		P - 0x50
+	*/
+	if ((GetKeyState(VK_SCROLL) & 0xFFFF) != 0)
+	{
+		if ((GetKeyState(VK_CAPITAL) & 0xFFFF) != 0)
+		{
+			if ((GetKeyState(VK_NUMLOCK) & 0xFFFF) != 0)
+			{
+				if (GetAsyncKeyState(VK_UKEY) & 0x8000)		 { CDriverConfig::SetRightHandOffsetRotationEle(0, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffsetRotation().x - 0.01f) : (CDriverConfig::GetRightHandOffsetRotation().x + 0.01f)); return; }
+				else if (GetAsyncKeyState(VK_IKEY) & 0x8000) { CDriverConfig::SetRightHandOffsetRotationEle(1, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffsetRotation().y - 0.01f) : (CDriverConfig::GetRightHandOffsetRotation().y + 0.01f)); return; }
+				else if (GetAsyncKeyState(VK_OKEY) & 0x8000) { CDriverConfig::SetRightHandOffsetRotationEle(2, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffsetRotation().z - 0.01f) : (CDriverConfig::GetRightHandOffsetRotation().z + 0.01f)); return; }
+				else if (GetAsyncKeyState(VK_PKEY) & 0x8000) { CDriverConfig::SetRightHandOffsetRotationEle(3, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffsetRotation().w - 0.01f) : (CDriverConfig::GetRightHandOffsetRotation().w + 0.01f)); return; }
+
+				if(GetAsyncKeyState(VK_RKEY) & 0x8000)
+				{
+					CDriverConfig::SetRightHandOffsetRotationEle(0, 0.0);
+					CDriverConfig::SetRightHandOffsetRotationEle(1, 0.0);
+					CDriverConfig::SetRightHandOffsetRotationEle(2, 0.0);
+					CDriverConfig::SetRightHandOffsetRotationEle(3, 1.0);
+
+					CDriverConfig::SetRightHandOffsetEle(0, 0.0);
+					CDriverConfig::SetRightHandOffsetEle(1, 0.0);
+					CDriverConfig::SetRightHandOffsetEle(2, -0.15);
+
+					CDriverConfig::SetLeftHandOffsetRotationEle(0, 0.0);
+					CDriverConfig::SetLeftHandOffsetRotationEle(1, 0.0);
+					CDriverConfig::SetLeftHandOffsetRotationEle(2, 0.0);
+					CDriverConfig::SetLeftHandOffsetRotationEle(3, 1.0);
+
+					CDriverConfig::SetLeftHandOffsetEle(0, 0.0);
+					CDriverConfig::SetLeftHandOffsetEle(1, 0.0);
+					CDriverConfig::SetLeftHandOffsetEle(2, -0.15);
+					return;
+				}
+
+				if ((GetAsyncKeyState(VK_GKEY) & 0x8000) && (GetAsyncKeyState(VK_SHIFT) & 0x8000))
+				{
+					CDriverConfig::SaveOffsetsData();
+					return;
+				}
+			}
+			if (GetAsyncKeyState(VK_UKEY) & 0x8000)		 { CDriverConfig::SetRightHandOffsetEle(0, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffset().x - 0.001f) : (CDriverConfig::GetRightHandOffset().x + 0.001f)); return; }
+			else if (GetAsyncKeyState(VK_IKEY) & 0x8000) { CDriverConfig::SetRightHandOffsetEle(1, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffset().y - 0.001f) : (CDriverConfig::GetRightHandOffset().y + 0.001f)); return; }
+			else if (GetAsyncKeyState(VK_OKEY) & 0x8000) { CDriverConfig::SetRightHandOffsetEle(2, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetRightHandOffset().z - 0.001f) : (CDriverConfig::GetRightHandOffset().z + 0.001f)); return; }
+		}
+		if ((GetKeyState(VK_NUMLOCK) & 0xFFFF) != 0)
+		{
+			if (GetAsyncKeyState(VK_UKEY) & 0x8000)		 { CDriverConfig::SetLeftHandOffsetRotationEle(0, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffsetRotation().x - 0.01f) : (CDriverConfig::GetLeftHandOffsetRotation().x + 0.01f)); return; }
+			else if (GetAsyncKeyState(VK_IKEY) & 0x8000) { CDriverConfig::SetLeftHandOffsetRotationEle(1, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffsetRotation().y - 0.01f) : (CDriverConfig::GetLeftHandOffsetRotation().y + 0.01f)); return; }
+			else if (GetAsyncKeyState(VK_OKEY) & 0x8000) { CDriverConfig::SetLeftHandOffsetRotationEle(2, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffsetRotation().z - 0.01f) : (CDriverConfig::GetLeftHandOffsetRotation().z + 0.01f)); return; }
+			else if (GetAsyncKeyState(VK_PKEY) & 0x8000) { CDriverConfig::SetLeftHandOffsetRotationEle(3, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffsetRotation().w - 0.01f) : (CDriverConfig::GetLeftHandOffsetRotation().w + 0.01f)); return;	}
+		}
+		if (GetAsyncKeyState(VK_UKEY) & 0x8000)		 { CDriverConfig::SetLeftHandOffsetEle(0, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffset().x - 0.001f) : (CDriverConfig::GetLeftHandOffset().x + 0.001f)); return; }
+		else if (GetAsyncKeyState(VK_IKEY) & 0x8000) { CDriverConfig::SetLeftHandOffsetEle(1, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffset().y - 0.001f) : (CDriverConfig::GetLeftHandOffset().y + 0.001f)); return; }
+		else if (GetAsyncKeyState(VK_OKEY) & 0x8000) { CDriverConfig::SetLeftHandOffsetEle(2, (GetAsyncKeyState(VK_SHIFT) & 0x8000) ? (CDriverConfig::GetLeftHandOffset().z - 0.001f) : (CDriverConfig::GetLeftHandOffset().z + 0.001f)); return; }
+	}
+
+	//char buffer[128];
+	//sprintf(buffer, "LeftHand Rot Offset: %f, %f, %f, %f; LeftHand Off: %f, %f, %f\n\0", CDriverConfig::GetLeftHandOffsetRotation().x, CDriverConfig::GetLeftHandOffsetRotation().y, CDriverConfig::GetLeftHandOffsetRotation().z, CDriverConfig::GetLeftHandOffsetRotation().w, \
+	//	CDriverConfig::GetLeftHandOffset().x, CDriverConfig::GetLeftHandOffset().y, CDriverConfig::GetLeftHandOffset().z);
+	//OutputDebugStringA(buffer);
+	//buffer[0] = '\0';
+
+	//sprintf(buffer, "RightHand Rot Offset: %f, %f, %f, %f; RightHand Off: %f, %f, %f\n\0", CDriverConfig::GetRightHandOffsetRotation().x, CDriverConfig::GetRightHandOffsetRotation().y, CDriverConfig::GetRightHandOffsetRotation().z, CDriverConfig::GetRightHandOffsetRotation().w, \
+	//	CDriverConfig::GetRightHandOffset().x, CDriverConfig::GetRightHandOffset().y, CDriverConfig::GetRightHandOffset().z);
+	//OutputDebugStringA(buffer);
 }
 
 void CLeapController::UpdateInput()
