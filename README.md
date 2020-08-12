@@ -25,7 +25,7 @@ Default "Steam_folder" Location: C:\Program Files (x86)\Steam
   * Install [latest Leap Motion Orion Beta](https://developer.leapmotion.com/get-started)
   * You should already have Steam and SteamVR installed.
   * Create `leap` folder in <code>*<SteamVR_folder>*/drivers</code>
-  * Grab [latest release archive](../../releases/latest) (.zip) for your platform
+  * Grab [latest release archive](https://github.com/SDraw/driver_leap/releases/latest) (.zip) for your platform
   * Extract archive to <code>*<SteamVR_folder>*/drivers/leap</code>
   * Edit steamvr configuration in <code>*<Steam_folder>*/config/steamvr.vrsettings</code> file 
     * If you are **using a HMD** already,
@@ -118,6 +118,43 @@ Game profiles:
     * Grip - grab gesture
     * Game menu - T-shape with two hands
 
+### Runtime Configuration
+
+Sometimes it is possible that the Real Hand is not exactly represented in VR Application, so it is required adjust/offset in x,y,z directions. Dynamic Offsetting for `Left,Right hand spatial and rotational offsets` can be done through special keys, as follows,
+
+<img src="https://di4564baj7skl.cloudfront.net/documentation/images/Leap_Axes.png" >
+
+<kbd>SCL</kbd>  - `Scroll Lock: On`
+<kbd>NML</kbd> - `Num Lock: On`
+<kbd>Caps</kbd> - `Caps Lock: On`
+
+* **LeftHand Spatial** Offset Increment(+ve)
+    - x = <kbd>SCL</kbd> + <kbd>U</kbd>
+    - y = <kbd>SCL</kbd> + <kbd>I</kbd>
+    - z = <kbd>SCL</kbd> + <kbd>O</kbd>
+    
+* **LeftHand Rotational** Offset Increment(+ve)
+    - x = <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>U</kbd>
+    - y = <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>I</kbd>
+    - z = <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>O</kbd>
+    - w = <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>P</kbd>
+
+* **RightHand Spatial** Offset Increment(+ve)
+    - x = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>U</kbd>
+    - y = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>I</kbd>
+    - z = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>O</kbd>
+    
+* **RightHand Rotational** Offset Increment(+ve)
+    - x = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>U</kbd>
+    - y = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>I</kbd>
+    - z = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>O</kbd>
+    - w = <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>NML</kbd> + <kbd>P</kbd>
+
+* For **Negative increments**(decrements(-ve)), <kbd>SHIFT</kbd> key should also be used along with above combinations.
+
+* **Saving offsets** to *Config file* : <kbd>NML</kbd> + <kbd>Caps</kbd> + <kbd>SCL</kbd> + <kbd>SHIFT</kbd> + <kbd>G</kbd>
+* **Resetting offsets** to default values : <kbd>NML</kbd> + <kbd>Caps</kbd>+ <kbd>SCL</kbd> + <kbd>R</kbd>
+
 ## Troubleshooting
 Sometimes installation of [base project driver](https://github.com/cbuchner1/driver_leap) doesn't register driver folder for SteamVR. To manually add it:
   * Open console as administrator in <code>*<SteamVR_folder>*/bin/[win32 or win64]</code>
@@ -139,7 +176,7 @@ Sometimes installation of [base project driver](https://github.com/cbuchner1/dri
 ## Building 
 *for developers*
 
-* Open 'driver_leap.sln' solution in **Visual Studio 2013** (Other versions of Visual Studio have to build their own vendor libraries using CMake and retarget solution)
+* Open 'driver_leap.sln' solution in **Visual Studio 2013** and **Visual Studio 2017** (Other versions of Visual Studio have to build their own vendor libraries using CMake and retarget solution)
 * Build the solution as per your platform. Output files for:
   * x64 - in `bin/win64`, in solution folder.
   * x86 - in `bin/win32`, in solution folder.
